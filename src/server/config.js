@@ -3,6 +3,7 @@ import cors from "cors";
 import morgan from "morgan";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
+import "./dbConfig.js";
 import dotenv from "dotenv";
 import indexRoutes from "../routes/index.routes.js";
 
