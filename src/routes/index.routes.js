@@ -1,10 +1,9 @@
 import { Router } from "express";
+import adminRoutes from "./admin.routes.js";
 
 const router = Router();
 
 //Agregar las rutas aquí
-router.get("/", (req, res) => {
-  res.json({ message: "Bienvenido a la API de LorePelu" });
-});
+router.use('/admins', adminRoutes);
 
 export default router;

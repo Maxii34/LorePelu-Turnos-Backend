@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import adminRepository from "../repositories/adminRepository.js";
-import { generarToken } from "../middlewares/generadorToken.js";
+import { generadorJWT } from "../middlewares/generadorToken.js";
 
 const registrar = async ({
   nombreCompleto,
@@ -40,7 +40,7 @@ const login = async ({ email, password }) => {
     throw new Error("Email o contraseña incorrectos");
   }
   // Generar un token JWT con la información del administrador
-  const token = generarToken({ id: admin._id, rol: admin.rol });
+  const token = generadorJWT({ id: admin._id, rol: admin.rol });
 
   return {
     token,

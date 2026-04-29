@@ -1,4 +1,4 @@
-import Admin from "../model/adminModelo";
+import Admin from "../model/adminModelo.js";
 
 const crear = async (adminData) => {
   return await Admin.create(adminData);

@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 
-const validarToken = (req, res, next) => {
+export const validarToken = (req, res, next) => {
   try {
     //Se busca el token en el header Authorization con formato "Bearer
     const authHeader = req.header("Authorization");
