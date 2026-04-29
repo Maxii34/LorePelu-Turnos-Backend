@@ -16,7 +16,6 @@ const login = async (req, res) => {
     res.status(200).json({ ok: true, token, admin })
   } catch (error) {
     res.status(401).json({ ok: false, mensaje: error.message })
-    // 401 = no autorizado, es el status correcto para credenciales incorrectas
   }
 }
 

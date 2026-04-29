@@ -4,6 +4,6 @@ import adminRoutes from "./admin.routes.js";
 const router = Router();
 
 //Agregar las rutas aquí
-router.use('/admins', adminRoutes);
+router.use('/admin', adminRoutes);
 
 export default router;
