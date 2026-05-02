@@ -77,11 +77,29 @@ const actualizar = async (id, datos) => {
   return admin;
 };
 
-// Función para eliminar un administrador
 const eliminar = async (id) => {
-  const admin = await adminRepository.eliminar(id);
-  if (!admin) throw new Error("Administrador no encontrado");
-  return admin;
-};
+  // 1. verificar que existe
+  const admin = await adminRepository.obtenerPorId(id)
+  if (!admin) throw new Error('Administrador no encontrado')
 
-export default { registrar, login, obtenerTodos, obtenerPorId, actualizar, eliminar }
+  // 2. si es administrador, verificar que no sea el último
+  if (admin.rol === 'administrador') {
+    const totalAdmins = await adminRepository.contarPorRol('administrador')
+    if (totalAdmins <= 1) {
+      throw new Error('No se puede eliminar el único administrador del sistema')
+    }
+  }
+
+  // 3. si pasó las reglas, eliminar
+  await adminRepository.eliminar(id)
+  return admin
+}
+
+export default {
+  registrar,
+  login,
+  obtenerTodos,
+  obtenerPorId,
+  actualizar,
+  eliminar,
+};

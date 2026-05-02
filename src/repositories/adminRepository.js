@@ -16,12 +16,17 @@ const obtenerPorEmail = async (email) => {
   return await Admin.findOne({ email });
 };
 
+// ✅ lo que necesitás — devuelve un número
+const contarPorRol = async (rol) => {
+  return await Admin.countDocuments({ rol })
+};
+
 const actualizar = async (id, adminData) => {
-  return await Admin.findByIdAndUpdate(id, adminData, { new: true }).select("-password",);
+  return await Admin.findByIdAndUpdate(id, adminData, { returnDocument: "after" }).select("-password");
 };
 
 const eliminar = async (id) => {
   return await Admin.findByIdAndDelete(id)
 };
 
-export default { crear, obtenerTodos, obtenerPorId, obtenerPorEmail, actualizar, eliminar };
+export default { crear, obtenerTodos, obtenerPorId, obtenerPorEmail, contarPorRol, actualizar, eliminar };
