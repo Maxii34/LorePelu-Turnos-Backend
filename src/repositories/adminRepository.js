@@ -16,7 +16,6 @@ const obtenerPorEmail = async (email) => {
   return await Admin.findOne({ email });
 };
 
-// ✅ lo que necesitás — devuelve un número
 const contarPorRol = async (rol) => {
   return await Admin.countDocuments({ rol })
 };

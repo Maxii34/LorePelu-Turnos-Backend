@@ -78,11 +78,11 @@ const actualizar = async (id, datos) => {
 };
 
 const eliminar = async (id) => {
-  // 1. verificar que existe
+  // verificar que existe
   const admin = await adminRepository.obtenerPorId(id)
   if (!admin) throw new Error('Administrador no encontrado')
 
-  // 2. si es administrador, verificar que no sea el último
+  // si es administrador, verificar que no sea el último
   if (admin.rol === 'administrador') {
     const totalAdmins = await adminRepository.contarPorRol('administrador')
     if (totalAdmins <= 1) {
@@ -90,7 +90,7 @@ const eliminar = async (id) => {
     }
   }
 
-  // 3. si pasó las reglas, eliminar
+  // si pasó las reglas, eliminar
   await adminRepository.eliminar(id)
   return admin
 }
