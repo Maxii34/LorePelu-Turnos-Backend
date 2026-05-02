@@ -11,11 +11,13 @@ const turnoSchema = new mongoose.Schema(
       type: String,
       required: true,
       trim: true,
+      unique: true,
     },
     email: {
       type: String,
       trim: true,
       lowercase: true,
+      unique: true,
     },
     servicio: {
       type: mongoose.Schema.Types.ObjectId,
@@ -34,11 +36,6 @@ const turnoSchema = new mongoose.Schema(
       type: String,
       enum: ["pendiente", "confirmado", "cancelado", "completado"],
       default: "pendiente",
-    },
-    mensaje: {
-      type: String,
-      trim: true,
-      maxlength: 250,
     },
   },
   { timestamps: true },
