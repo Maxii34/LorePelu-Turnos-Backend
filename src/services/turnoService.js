@@ -41,3 +41,15 @@ const obtenerTurnoPorTelefono = async (telefono) => {
     if (!turnoTelefono) throw new Error("Turno no encontrado");
     return turnoTelefono;
 }
+
+const actualizarTurno = async (id, turnoData) => {
+    const turnoEncontrado = await turnosRepository.obtenerTurnoPorId(id);
+    if (!turnoEncontrado) throw new Error("Turno no encontrado");
+    return await turnosRepository.actualizarTurno(id, turnoData);
+};
+
+const eliminarTurno = async (id) => {
+    const turnoEncontrado = await turnosRepository.obtenerTurnoPorId(id);
+    if (!turnoEncontrado) throw new Error("Turno no encontrado");
+    return await turnosRepository.eliminarTurno(id);
+};
