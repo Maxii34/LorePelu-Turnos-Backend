@@ -4,7 +4,7 @@ const crearTurno = async (turnoData) => {
   return await Turno.create(turnoData);
 };
 
-const obtenerTurnos = async () => {
+const obtenerTodoTurnos = async () => {
   return await Turno.find();
 };
 
@@ -32,7 +32,7 @@ const eliminarTurno = async (id) => {
 
 export default {
   crearTurno,
-  obtenerTurnos,
+  obtenerTodoTurnos,
   obtenerTurnoPorId,
   obtenerTurnoPorEmail,
   obtenerTurnoPorTelefono,

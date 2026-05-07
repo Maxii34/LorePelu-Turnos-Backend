@@ -19,3 +19,25 @@ const crearTurno = async (turnoData) => {
     const turno = await turnosRepository.crearTurno(turnoData);
     return turno;
 };
+
+const obtenerTurnos = async () => {
+    return await turnosRepository.obtenerTodoTurnos();
+};
+
+const obtenerTurnoPorId = async (id) => {
+    const turnoID = await turnosRepository.obtenerTurnoPorId(id);
+    if (!turnoID) throw new Error("Turno no encontrado");
+    return turnoID;
+};
+
+const obtenerTurnoPorEmail = async (email) => {
+    const turnoEmail = await turnosRepository.obtenerTurnoPorEmail(email);
+    if (!turnoEmail) throw new Error("Turno no encontrado");
+    return turnoEmail;
+}
+
+const obtenerTurnoPorTelefono = async (telefono) => {
+    const turnoTelefono = await turnosRepository.obtenerTurnoPorTelefono(telefono);
+    if (!turnoTelefono) throw new Error("Turno no encontrado");
+    return turnoTelefono;
+}
