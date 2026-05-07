@@ -53,3 +53,13 @@ const eliminarTurno = async (id) => {
     if (!turnoEncontrado) throw new Error("Turno no encontrado");
     return await turnosRepository.eliminarTurno(id);
 };
+
+export default {
+    crearTurno,
+    obtenerTurnos,
+    obtenerTurnoPorId,
+    obtenerTurnoPorEmail,
+    obtenerTurnoPorTelefono,    
+    actualizarTurno,
+    eliminarTurno,
+};  
