@@ -18,6 +18,14 @@ const actualizarServicio = async (id, servicioData) => {
   });
 };
 
-const eliminarServicoo = async (id) => {
+const eliminarServico = async (id) => {
   return await servicio.findByIdAndDelete(id);
+};
+
+export default {
+  crearServicio,
+  obtenerServicio,
+  obtenerServicios,
+  actualizarServicio,
+  eliminarServico,
 };
