@@ -1,4 +1,4 @@
-import serviciosRepository from "../repositories/serviciosRepository";
+import serviciosRepository from "../repositories/serviciosRepository.js";
 
 const crearServicio = async (servicioData) => {
   const { nombre, precio } = servicioData;

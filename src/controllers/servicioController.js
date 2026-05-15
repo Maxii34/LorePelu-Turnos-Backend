@@ -1,4 +1,4 @@
-import servicioService from "../services/servicioService";
+import servicioService from "../services/servicioService.js";
 
 const crearServicio = async (req, res) => {
   try {

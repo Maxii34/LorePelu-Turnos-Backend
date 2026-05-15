@@ -1,9 +1,8 @@
 import { Router } from "express";
-import servicioController from "../controllers/servicioController";
-import router from "./turno.routes";
+import servicioController from "../controllers/servicioController.js";
 
-const route = Router()
+const router = Router()
 
 router.route("/").post(servicioController.crearServicio)
 
-export default route;
+export default router;

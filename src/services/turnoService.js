@@ -1,4 +1,4 @@
-import turnosRepository from "../repositories/turnosRepository";
+import turnosRepository from "../repositories/turnosRepository.js";
 
 const crearTurno = async (turnoData) => {
     // Validar que se proporcionen los datos obligatorios
