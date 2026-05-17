@@ -12,12 +12,10 @@ const obtenerTurnoPorId = async (id) => {
   return await Turno.findById(id);
 };
 
-const obtenerTurnoPorEmail = async (email) => {
-  return await Turno.findOne({ email });
-};
-
-const obtenerTurnoPorTelefono = async (telefono) => {
-  return await Turno.findOne({ telefono });
+const obtenerTurnoExistente = async (email, telefono) => {
+  return await Turno.findOne({
+    $or: [{ email }, { telefono }],
+  });
 };
 
 const actualizarTurno = async (id, turnoData) => {
@@ -33,9 +31,8 @@ const eliminarTurno = async (id) => {
 export default {
   crearTurno,
   obtenerTodoTurnos,
+  obtenerTurnoExistente,
   obtenerTurnoPorId,
-  obtenerTurnoPorEmail,
-  obtenerTurnoPorTelefono,
   actualizarTurno,
   eliminarTurno,
 };
