@@ -1,23 +1,20 @@
 import turnosRepository from "../repositories/turnosRepository.js";
 
 const crearTurno = async (turnoData) => {
-    // Validar que se proporcionen los datos obligatorios
     const { email, telefono } = turnoData;
     if (!email || !telefono) {
         throw new Error("Faltan datos obligatorios");
     }
-    // Verificar si ya existe un turno con el mismo email o teléfono
-    const turnoExistenteEmail = await turnosRepository.obtenerTurnoPorEmail(turnoData.email);
-    if (turnoExistenteEmail) {
-        throw new Error("Ya existe un turno con ese email");
+    const turnoExistente = await turnosRepository.obtenerTurnoExistente(email, telefono);
+    if (turnoExistente) {
+        if (turnoExistente.email === email) {
+            throw new Error("Ya existe un turno con ese email");
+        }
+        if (turnoExistente.telefono === telefono) {
+            throw new Error("Ya existe un turno con ese teléfono");
+        }
     }
-    const turnoExistenteTelefono = await turnosRepository.obtenerTurnoPorTelefono(turnoData.telefono);
-    if (turnoExistenteTelefono) {
-        throw new Error("Ya existe un turno con ese teléfono");
-    }
-    // Crear el nuevo turno
-    const turno = await turnosRepository.crearTurno(turnoData);
-    return turno;
+    return await turnosRepository.crearTurno(turnoData);
 };
 
 const obtenerTurnos = async () => {

@@ -7,11 +7,10 @@ const router = Router();
 //http://localhost:3000/api/turnos
 router.post("/", turnoController.crearTurno);
 router.get("/", turnoController.obtenerTurnos);
-router.get("/", turnoController.obtenerTurnoPorTelefono);
-router.get("/", turnoController.obtenerTurnoPorEmail);
 
 router
   .route("/:id")
+  .get(turnoController.obtenerTurnoPorId)
   .put(turnoController.actualizarTurno)
   .delete(turnoController.eliminarTurno);
 

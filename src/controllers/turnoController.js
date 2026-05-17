@@ -3,7 +3,11 @@ import turnoService from "../services/turnoService.js";
 const crearTurno = async (req, res) => {
   try {
     const turnoCreado = await turnoService.crearTurno(req.body);
-    res.status(201).json({ ok: true, turnoCreado });
+    res.status(201).json({
+      ok: true, 
+      mensaje: "Turno creado",
+      turno: turnoCreado 
+    });
   } catch (error) {
     res.status(400).json({ ok: false, mensaje: error.message });
   }
@@ -12,7 +16,11 @@ const crearTurno = async (req, res) => {
 const obtenerTurnos = async (req, res) => {
   try {
     const turnosObtenidos = await turnoService.obtenerTurnos();
-    res.status(200).json({ ok: true, turnosObtenidos });
+    res.status(200).json({
+        ok: true, 
+        mensaje: "Turnos obtenidos", 
+        turno: turnosObtenidos
+      });
   } catch (error) {
     res.status(500).json({ ok: false, mensaje: error.message });
   }
@@ -21,29 +29,10 @@ const obtenerTurnos = async (req, res) => {
 const obtenerTurnoPorId = async (req, res) => {
   try {
     const turnoID = await turnoService.obtenerTurnoPorId(req.params.id);
-    res.status(200).json({ ok: true, turnoID });
-  } catch (error) {
-    res.status(500).json({ ok: false, mensaje: error.message });
-  }
-};
-
-const obtenerTurnoPorEmail = async (req, res) => {
-  try {
-    const turnoEnail = await turnoService.obtenerTurnoPorEmail(
-      req.params.email,
-    );
-    res.status(200).json({ ok: true, turnoEnail });
-  } catch (error) {
-    res.status(500).json({ ok: false, mensaje: error.message });
-  }
-};
-
-const obtenerTurnoPorTelefono = async (req, res) => {
-  try {
-    const turnoTelefono = await turnoService.obtenerTurnoPorTelefono(
-      req.params.telefono,
-    );
-    res.status(200).json({ ok: true, turnoTelefono });
+    res.status(200).json({
+      ok: true, 
+      mensaje: "Turno obtenido", 
+      turno: turnoID });
   } catch (error) {
     res.status(500).json({ ok: false, mensaje: error.message });
   }
@@ -54,6 +43,11 @@ const actualizarTurno = async (req, res) => {
     const turnoActualizado = await turnoService.actualizarTurno(
       req.params.actualizarTurno,
     );
+    res.status(200).json({
+      ok: true,
+      mensaje: "Turno Actualizado",
+      turno: turnoActualizado,
+    });
   } catch (error) {
     res.status(500).json({ ok: false, mensaje: error.message });
   }
@@ -64,6 +58,11 @@ const eliminarTurno = async (req, res) => {
     const turnoEliminado = await turnoService.eliminarTurno(
       req.params.EliminarTurno,
     );
+    res.status(200).json({
+      ok: true,
+      mensaje: "Turno Eliminado",
+      turno: turnoEliminado
+    })
   } catch (error) {
     res.status(500).json({ ok: false, mensaje: error.message });
   }
@@ -73,8 +72,6 @@ export default {
   crearTurno,
   obtenerTurnos,
   obtenerTurnoPorId,
-  obtenerTurnoPorEmail,
-  obtenerTurnoPorTelefono,
   actualizarTurno,
   eliminarTurno,
 };
