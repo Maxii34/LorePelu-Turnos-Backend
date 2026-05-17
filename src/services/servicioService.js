@@ -20,7 +20,7 @@ const obtenerServicios = async () => {
 const actualizarServicio = async (id, servicioData) => {
   const servicioEncontrado = await serviciosRepository.obtenerServicio(id);
   if (!servicioEncontrado) throw new Error("Servicio no encontrado");
-  return await serviciosRepository.actualizarServicio(id);
+  return await serviciosRepository.actualizarServicio(id, servicioData);
 };
 
 const eliminarServicio = async (id) => {

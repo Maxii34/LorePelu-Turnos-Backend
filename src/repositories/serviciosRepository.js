@@ -5,7 +5,7 @@ const crearServicio = async (servicioData) => {
 };
 
 const obtenerServicio = async (id) => {
-  return await servicio.find(id);
+  return await servicio.findById(id);
 };
 
 const obtenerServicios = async () => {

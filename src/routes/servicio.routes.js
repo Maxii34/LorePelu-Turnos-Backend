@@ -7,6 +7,11 @@ const router = Router();
 router
   .route("/")
   .post(servicioController.crearServicio)
-  .get(servicioController.obtenerServicio);
+  .get(servicioController.obtenerServicios);
+
+router
+  .route("/:id")
+  .get(servicioController.obtenerServicio)
+  .put(servicioController.actualizarServicio);
 
 export default router;
