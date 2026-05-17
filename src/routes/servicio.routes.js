@@ -8,10 +8,11 @@ router
   .route("/")
   .post(servicioController.crearServicio)
   .get(servicioController.obtenerServicios);
-
+//http://localhost:3000/api/servicio/id
 router
   .route("/:id")
   .get(servicioController.obtenerServicio)
-  .put(servicioController.actualizarServicio);
+  .put(servicioController.actualizarServicio)
+  .delete(servicioController.eliminarServicio);
 
 export default router;

@@ -3,7 +3,6 @@ import servicioService from "../services/servicioService.js";
 const crearServicio = async (req, res) => {
   try {
     const servicioCreado = await servicioService.crearServicio(req.body);
-
     res.status(201).json({
       ok: true,
       mensaje: "Servicio creado correctamente",
@@ -57,11 +56,26 @@ const actualizarServicio = async (req, res) => {
       req.params.id,
       req.body,
     );
-    console.log(req.body)
     res.status(200).json({
       ok: true,
       mensaje: "Servicio Actualizado",
       servicio: servicioActualizado,
+    });
+  } catch (error) {
+    res.status(500).json({
+      ok: false,
+      mensaje: error.message,
+    });
+  }
+};
+
+const eliminarServicio = async (req, res) => {
+  try {
+    const servicioEliminado = await servicioService.eliminarServicio(req.params.id);
+    res.status(200).json({
+      ok: true,
+      mensaje: "Servicio Eliminado",
+      servicio: servicioEliminado,
     });
   } catch (error) {
     res.status(500).json({
@@ -76,4 +90,5 @@ export default {
   obtenerServicio,
   obtenerServicios,
   actualizarServicio,
+  eliminarServicio,
 };
