@@ -41,7 +41,8 @@ const obtenerTurnoPorId = async (req, res) => {
 const actualizarTurno = async (req, res) => {
   try {
     const turnoActualizado = await turnoService.actualizarTurno(
-      req.params.actualizarTurno,
+      req.params.id,
+      req.body
     );
     res.status(200).json({
       ok: true,
@@ -56,7 +57,7 @@ const actualizarTurno = async (req, res) => {
 const eliminarTurno = async (req, res) => {
   try {
     const turnoEliminado = await turnoService.eliminarTurno(
-      req.params.EliminarTurno,
+      req.params.id,
     );
     res.status(200).json({
       ok: true,
@@ -68,10 +69,27 @@ const eliminarTurno = async (req, res) => {
   }
 };
 
+const actualizarEstado = async (req, res) => {
+  try {
+    const turnoActualizado = await turnoService.actualizarEstado(
+      req.params.id,
+      req.body.estado
+    );
+    res.status(200).json({
+      ok: true,
+      mensaje: "Estado actualizado",
+      turno: turnoActualizado,
+    });
+  } catch (error) {
+    res.status(400).json({ ok: false, mensaje: error.message });
+  }
+};
+
 export default {
   crearTurno,
   obtenerTurnos,
   obtenerTurnoPorId,
   actualizarTurno,
   eliminarTurno,
+  actualizarEstado,
 };

@@ -12,6 +12,7 @@ router
   .route("/:id")
   .get(turnoController.obtenerTurnoPorId)
   .put(turnoController.actualizarTurno)
-  .delete(turnoController.eliminarTurno);
+  .delete(turnoController.eliminarTurno)
+  .patch(turnoController.actualizarEstado);
 
 export default router;

@@ -1,4 +1,5 @@
 import turnosRepository from "../repositories/turnosRepository.js";
+import { ESTADOS_TURNO } from "../constants/turno.constants.js";
 
 const crearTurno = async (turnoData) => {
   const { email, telefono } = turnoData;
@@ -55,6 +56,16 @@ const eliminarTurno = async (id) => {
   return await turnosRepository.eliminarTurno(id);
 };
 
+const actualizarEstado = async (id, estado) => {
+  if (!ESTADOS_TURNO.includes(estado)) {
+    throw new Error(`Estado inválido. Los valores permitidos son: ${ESTADOS_TURNO.join(", ")}`);
+  }
+  const turnoEncontrado = await turnosRepository.obtenerTurnoPorId(id);
+  if (!turnoEncontrado) throw new Error("Turno no encontrado");
+
+  return await turnosRepository.actualizarEstado(id, estado);
+};
+
 export default {
   crearTurno,
   obtenerTurnos,
@@ -63,4 +74,5 @@ export default {
   obtenerTurnoPorTelefono,
   actualizarTurno,
   eliminarTurno,
+  actualizarEstado,
 };

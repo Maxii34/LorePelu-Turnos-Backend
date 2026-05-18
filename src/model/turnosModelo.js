@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { ESTADOS_TURNO, ESTADO_DEFAULT } from "../constants/turno.constants.js";
 
 const turnoSchema = new mongoose.Schema(
   {
@@ -34,8 +35,8 @@ const turnoSchema = new mongoose.Schema(
     },
     estado: {
       type: String,
-      enum: ["pendiente", "confirmado", "cancelado", "completado"],
-      default: "pendiente",
+      enum: ESTADOS_TURNO,
+      default: ESTADO_DEFAULT,
     },
   },
   { timestamps: true },

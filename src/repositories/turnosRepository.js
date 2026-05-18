@@ -28,6 +28,14 @@ const eliminarTurno = async (id) => {
   return await Turno.findByIdAndDelete(id);
 };
 
+const actualizarEstado = async (id, estado) => {
+  return await Turno.findByIdAndUpdate(
+    id,
+    { $set: { estado } },
+    { new: true }
+  );
+};
+
 export default {
   crearTurno,
   obtenerTodoTurnos,
@@ -35,4 +43,5 @@ export default {
   obtenerTurnoPorId,
   actualizarTurno,
   eliminarTurno,
+  actualizarEstado,
 };
