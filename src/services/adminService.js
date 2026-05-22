@@ -40,7 +40,7 @@ const login = async ({ email, password }) => {
     throw new Error("Email o contraseña incorrectos");
   }
   // Generar un token JWT con la información del administrador
-  const token = generadorJWT({ id: admin._id, rol: admin.rol });
+  const token = generadorJWT(admin._id, admin.rol);
 
   return {
     token,

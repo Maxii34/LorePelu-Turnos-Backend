@@ -30,15 +30,36 @@ export const validarAdmin = [
     .withMessage("La contraseña es obligatoria")
     .isLength({ min: 8 })
     .withMessage("La contraseña debe tener al menos 8 caracteres")
-    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+    )
     .withMessage(
-      "La contraseña debe tener al menos una mayúscula, una minúscula, un número y un carácter especial (@$!%*?&)"
+      "La contraseña debe tener al menos una mayúscula, una minúscula, un número y un carácter especial (@$!%*?&)",
     ),
 
   body("rol")
     .optional()
     .isIn(["administrador", "moderador"])
     .withMessage("El rol debe ser 'administrador' o 'moderador'"),
+
+  (req, res, next) => resultadoValidacion(req, res, next),
+];
+
+// Validación específica para login — solo email y password
+export const validarLogin = [
+  body("email")
+    .trim()
+    .notEmpty()
+    .withMessage("El email es obligatorio")
+    .isEmail()
+    .withMessage("El email no es válido")
+    .normalizeEmail(),
+
+  body("password")
+    .notEmpty()
+    .withMessage("La contraseña es obligatoria")
+    .isLength({ min: 8 })
+    .withMessage("La contraseña debe tener al menos 8 caracteres"),
 
   (req, res, next) => resultadoValidacion(req, res, next),
 ];
