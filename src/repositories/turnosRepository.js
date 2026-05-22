@@ -1,15 +1,18 @@
 import Turno from "../model/turnosModelo.js";
 
+const populate = { path: "servicio", select: "nombre precio duracionMin" };
+
 const crearTurno = async (turnoData) => {
-  return await Turno.create(turnoData);
+  const turno = await Turno.create(turnoData);
+  return await turno.populate(populate);
 };
 
 const obtenerTodoTurnos = async () => {
-  return await Turno.find();
+  return await Turno.find().populate(populate);
 };
 
 const obtenerTurnoPorId = async (id) => {
-  return await Turno.findById(id);
+  return await Turno.findById(id).populate(populate);
 };
 
 const obtenerTurnoExistente = async (email, telefono) => {
@@ -21,7 +24,7 @@ const obtenerTurnoExistente = async (email, telefono) => {
 const actualizarTurno = async (id, turnoData) => {
   return await Turno.findByIdAndUpdate(id, turnoData, {
     returnDocument: "after",
-  });
+  }).populate(populate);
 };
 
 const eliminarTurno = async (id) => {
@@ -33,7 +36,7 @@ const actualizarEstado = async (id, estado) => {
     id,
     { $set: { estado } },
     { new: true }
-  );
+  ).populate(populate);
 };
 
 export default {
