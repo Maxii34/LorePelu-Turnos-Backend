@@ -7,18 +7,18 @@ const turnoSchema = new mongoose.Schema(
       type: String,
       required: true,
       trim: true,
+      minlength: 2,
+      maxlength: 100,
     },
     telefono: {
       type: String,
       required: true,
       trim: true,
-      unique: true,
     },
     email: {
       type: String,
       trim: true,
       lowercase: true,
-      unique: true,
     },
     servicio: {
       type: mongoose.Schema.Types.ObjectId,
@@ -32,6 +32,7 @@ const turnoSchema = new mongoose.Schema(
     hora: {
       type: String,
       required: true,
+      match: /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/,
     },
     estado: {
       type: String,
@@ -39,7 +40,7 @@ const turnoSchema = new mongoose.Schema(
       default: ESTADO_DEFAULT,
     },
   },
-  { timestamps: true },
+  { timestamps: true }
 );
 
 export default mongoose.model("Turno", turnoSchema);
