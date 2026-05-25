@@ -5,7 +5,7 @@ import { permitirRoles } from "../middlewares/validarRoles.js";
 
 const router = Router();
 
-//http://localhost:3000/api/servicio
+//http://localhost:3000/api/servicio                   
 router
   .route("/")
   .post(validarToken, permitirRoles(['administrador', 'moderador']), servicioController.crearServicio)

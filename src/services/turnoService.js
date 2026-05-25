@@ -58,10 +58,19 @@ const eliminarTurno = async (id) => {
 
 const actualizarEstado = async (id, estado) => {
   if (!ESTADOS_TURNO.includes(estado)) {
-    throw new Error(`Estado inválido. Los valores permitidos son: ${ESTADOS_TURNO.join(", ")}`);
+    throw new Error(
+      `Estado inválido. Los valores permitidos son: ${ESTADOS_TURNO.join(", ")}`,
+    );
   }
   const turnoEncontrado = await turnosRepository.obtenerTurnoPorId(id);
   if (!turnoEncontrado) throw new Error("Turno no encontrado");
+
+  if (
+    turnoEncontrado.estado === "cancelado" ||
+    turnoEncontrado.estado === "completado"
+  ) {
+    throw new Error(`El turno ${turnoEncontrado.estado} no puede modificarse`);
+  }
 
   return await turnosRepository.actualizarEstado(id, estado);
 };

@@ -7,14 +7,14 @@ const router = Router();
 
 // Rutas para Turnos
 //http://localhost:3000/api/turnos
-router.post("/", validarToken, turnoValidacion, turnoController.crearTurno);
-router.get("/", validarToken, turnoController.obtenerTurnos);
+router.post("/", turnoValidacion, turnoController.crearTurno);
+router.get("/", turnoController.obtenerTurnos);
 
 router
   .route("/:id")
-  .get(validarToken, turnoController.obtenerTurnoPorId)
-  .put(validarToken, turnoValidacion, turnoController.actualizarTurno)
-  .delete(validarToken, turnoController.eliminarTurno)
-  .patch(validarToken, turnoController.actualizarEstado);
+  .get(turnoController.obtenerTurnoPorId)
+  .put(turnoValidacion, turnoController.actualizarTurno)
+  .delete(turnoController.eliminarTurno)
+  .patch(turnoController.actualizarEstado);
 
 export default router;

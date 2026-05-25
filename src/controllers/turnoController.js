@@ -78,7 +78,12 @@ const actualizarEstado = async (req, res) => {
     res.status(200).json({
       ok: true,
       mensaje: "Estado actualizado",
-      turno: turnoActualizado,
+      turno:{
+        _id: turnoActualizado._id,
+        nombreCliente: turnoActualizado.nombreCliente,
+        estado: turnoActualizado.estado,
+        servicio: turnoActualizado.servicio.nombre,
+      },
     });
   } catch (error) {
     res.status(400).json({ ok: false, mensaje: error.message });
