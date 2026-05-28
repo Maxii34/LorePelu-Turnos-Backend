@@ -9,6 +9,7 @@ const servicioSchema = new mongoose.Schema(
       minlength: 2,
       maxlength: 100,
     },
+    //agregar para la imagen del servicio
     precio: {
       type: Number,
       required: true,
