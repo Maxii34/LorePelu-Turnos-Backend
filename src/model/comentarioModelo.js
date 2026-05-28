@@ -16,12 +16,6 @@ const comentarioSchema = new mongoose.Schema(
       maxlength: 50,
     },
 
-    fotoPerfil: {
-      type: String,
-      default: "",
-      trim: true,
-    },
-
     comentario: {
       type: String,
       required: true,
