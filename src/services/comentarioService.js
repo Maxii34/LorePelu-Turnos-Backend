@@ -1,4 +1,4 @@
-import comentarioRepositorio from "../repositories/comentarioRepositorio";
+import comentarioRepositorio from "../repositories/comentarioRepositorio.js";
 
 const crearComentario = async (data) => {
   const { usuario, nombreUsuario, comentario, estrellas } = data;

@@ -1,4 +1,4 @@
-import Comentario from "../model/comentarioModelo";
+import Comentario from "../model/comentarioModelo.js";
 
 const crearComentario = async (data) => {
   return await Comentario.create(data);

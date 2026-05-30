@@ -1,4 +1,4 @@
-import comentarioService from "../services/comentarioService";
+import comentarioService from "../services/comentarioService.js";
 
 const crearComentario = async (req, res) => {
   try {
