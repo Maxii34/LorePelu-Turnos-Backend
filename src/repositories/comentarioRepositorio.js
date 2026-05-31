@@ -6,13 +6,13 @@ const crearComentario = async (data) => {
 
 const obtenerComentarios = async () => {
   return await Comentario.find({ activo: true })
-    .populate("usuario", "nombreUsuario fotoPerfil") // trae datos del usuario relacionado
+    .populate("usuario", "nombreUsuario") // trae datos del usuario relacionado
     .sort({ createdAt: -1 }); // los más recientes primero
 };
 
 const obtenerComentario = async (id) => {
   return await Comentario.findById(id)
-    .populate("usuario", "nombreUsuario fotoPerfil");
+    .populate("usuario", "nombreUsuario");
 };
 
 const actualizarComentario = async (id, data) => {

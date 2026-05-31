@@ -37,8 +37,8 @@ const adminSchema = new mongoose.Schema(
     },
     rol: {
       type: String,
-      enum: ["administrador", "moderador"],
-      default: "administrador",
+      enum: ["usuario", "administrador", "moderador"],
+      default: "usuario",
     },
   },
   { timestamps: true }
