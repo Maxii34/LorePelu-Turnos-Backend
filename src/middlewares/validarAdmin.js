@@ -39,8 +39,8 @@ export const validarAdmin = [
 
   body("rol")
     .optional()
-    .isIn(["administrador", "moderador"])
-    .withMessage("El rol debe ser 'administrador' o 'moderador'"),
+    .isIn(["usuario", "administrador", "moderador"])
+    .withMessage("El rol debe ser 'usuario','administrador' o 'moderador'"),
 
   (req, res, next) => resultadoValidacion(req, res, next),
 ];

@@ -3,6 +3,7 @@ import { validarToken } from '../middlewares/validarToken.js'
 import adminController from '../controllers/adminController.js'
 import { permitirRoles } from '../middlewares/validarRoles.js'
 import { validarAdmin, validarLogin } from '../middlewares/validarAdmin.js';
+import validacionID from '../middlewares/validacionID.js';
 
 const router = Router()
 
@@ -18,9 +19,9 @@ router.route('/')
   .get(validarToken, adminController.obtenerTodos)
 
 router.route('/:id')
-  .get(validarToken, permitirRoles(['administrador']), adminController.obtenerPorId)
-  .put(validarToken, permitirRoles(['administrador']), adminController.actualizar)
-  .delete(validarToken, permitirRoles(['administrador']), adminController.eliminar)
+  .get(validarToken, validacionID, permitirRoles(['administrador', 'moderador']), adminController.obtenerPorId)
+  .put(validarToken, validacionID,  permitirRoles(['administrador', 'usuario']), adminController.actualizar)
+  .delete(validarToken, validacionID,  permitirRoles(['administrador']), adminController.eliminar)
 
 
 export default router
