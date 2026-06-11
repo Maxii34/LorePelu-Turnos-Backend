@@ -9,7 +9,7 @@ const router = Router();
 router
   .route("/")
   .post(validarToken, permitirRoles(['administrador', 'moderador']), servicioController.crearServicio)
-  .get(validarToken, permitirRoles(['administrador', 'moderador']), servicioController.obtenerServicios);
+  .get(servicioController.obtenerServicios);
   
 //http://localhost:3000/api/servicio/id
 router
