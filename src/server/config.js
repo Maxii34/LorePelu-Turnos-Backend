@@ -6,6 +6,7 @@ import { fileURLToPath } from "url";
 import "./dbConfig.js";
 import dotenv from "dotenv";
 import indexRoutes from "../routes/index.routes.js";
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 
@@ -18,8 +19,14 @@ export default class Server {
   }
 
   middlewares() {
-    this.app.use(cors());
+    this.app.use(
+      cors({
+        origin: "http://localhost:5173", 
+        credentials: true,
+      }),
+    );
     this.app.use(express.json());
+    this.app.use(cookieParser());
     this.app.use(morgan("dev"));
 
     const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -32,7 +39,9 @@ export default class Server {
 
   listen() {
     this.app.listen(this.port, () => {
-      console.info(`El servidor se esta ejecutando en http://localhost:${this.port}`);
+      console.info(
+        `El servidor se esta ejecutando en http://localhost:${this.port}`,
+      );
     });
   }
 }
