@@ -90,6 +90,25 @@ const actualizarEstado = async (req, res) => {
   }
 };
 
+const buscarTurnos = async (req, res) => {
+  try {
+    const { q } = req.query;
+
+    const turnos = await turnoService.buscarTurnos(q);
+
+    res.status(200).json({
+      ok: true,
+      mensaje: "Turnos encontrados",
+      turnos,
+    });
+  } catch (error) {
+    res.status(500).json({
+      ok: false,
+      mensaje: error.message,
+    });
+  }
+};
+
 export default {
   crearTurno,
   obtenerTurnos,
@@ -97,4 +116,5 @@ export default {
   actualizarTurno,
   eliminarTurno,
   actualizarEstado,
+  buscarTurnos,
 };

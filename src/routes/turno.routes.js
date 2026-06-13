@@ -11,6 +11,7 @@ const router = Router();
 //http://localhost:3000/api/turnos
 router.post("/", turnoValidacion, turnoController.crearTurno);
 router.get("/", turnoController.obtenerTurnos);
+router.get("/buscar", turnoController.buscarTurnos);
 
 router
   .route("/:id")

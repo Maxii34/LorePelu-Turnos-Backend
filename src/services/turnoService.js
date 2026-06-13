@@ -75,6 +75,14 @@ const actualizarEstado = async (id, estado) => {
   return await turnosRepository.actualizarEstado(id, estado);
 };
 
+const buscarTurnos = async (texto) => {
+  if (!texto?.trim()) {
+    return await turnosRepository.obtenerTodoTurnos();
+  }
+
+  return await turnosRepository.buscarTurnos(texto);
+};
+
 export default {
   crearTurno,
   obtenerTurnos,
@@ -84,4 +92,5 @@ export default {
   actualizarTurno,
   eliminarTurno,
   actualizarEstado,
+  buscarTurnos,
 };

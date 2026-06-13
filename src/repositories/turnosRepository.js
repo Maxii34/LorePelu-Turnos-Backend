@@ -44,6 +44,20 @@ const actualizarEstado = async (id, estado) => {
   ).populate(populate);
 };
 
+const buscarTurnos = async (texto) => {
+  return await Turno.find({
+    $or: [
+      { nombreCliente: { $regex: texto, $options: "i" } },
+      { email: { $regex: texto, $options: "i" } },
+      { telefono: { $regex: texto, $options: "i" } },
+      { estado: { $regex: texto, $options: "i" } },
+    ],
+  })
+    .populate(populate)
+    .sort({ fecha: 1, hora: 1 });
+};
+
+
 export default {
   crearTurno,
   obtenerTodoTurnos,
@@ -52,4 +66,5 @@ export default {
   actualizarTurno,
   eliminarTurno,
   actualizarEstado,
+  buscarTurnos,
 };
