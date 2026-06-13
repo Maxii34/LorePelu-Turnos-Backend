@@ -8,7 +8,12 @@ const crearTurno = async (turnoData) => {
 };
 
 const obtenerTodoTurnos = async () => {
-  return await Turno.find().populate(populate);
+  const hoy = new Date();
+  hoy.setHours(0, 0, 0, 0);
+
+  return await Turno.find({ fecha: { $gte: hoy } })
+    .sort({ fecha: 1, hora: 1 })
+    .populate(populate);
 };
 
 const obtenerTurnoPorId = async (id) => {
