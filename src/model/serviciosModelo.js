@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { CATEGORIA_SERVICIO } from "../constants/turno.constants.js";
 
 const servicioSchema = new mongoose.Schema(
   {
@@ -9,7 +10,12 @@ const servicioSchema = new mongoose.Schema(
       minlength: 2,
       maxlength: 100,
     },
-    //agregar para la imagen del servicio
+    categoria: {
+      type: String,
+      required: true,
+      trim: true,
+      enum: CATEGORIA_SERVICIO,
+    },
     precio: {
       type: Number,
       required: true,
@@ -26,7 +32,7 @@ const servicioSchema = new mongoose.Schema(
       default: true,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 export default mongoose.model("Servicio", servicioSchema);
