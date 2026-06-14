@@ -29,10 +29,19 @@ const eliminarServicio = async (id) => {
   return await serviciosRepository.eliminarServico(id);
 };
 
+const buscarServicios = async (texto) => {
+  if (!texto?.trim()) {
+    return await servicioRepository.obtenerServicios();
+  }
+
+  return await servicioRepository.buscarServicios(texto);
+};
+
 export default {
   crearServicio,
   obtenerServicio,
   obtenerServicios,
   actualizarServicio,
   eliminarServicio,
+  buscarServicios,
 };

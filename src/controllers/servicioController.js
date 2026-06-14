@@ -85,10 +85,30 @@ const eliminarServicio = async (req, res) => {
   }
 };
 
+const buscarServicios = async (req, res) => {
+  try {
+    const { q } = req.query;
+
+    const servicios = await servicioService.buscarServicios(q);
+
+    res.status(200).json({
+      ok: true,
+      mensaje: "Servicios encontrados",
+      servicios,
+    });
+  } catch (error) {
+    res.status(500).json({
+      ok: false,
+      mensaje: error.message,
+    });
+  }
+};
+
 export default {
   crearServicio,
   obtenerServicio,
   obtenerServicios,
   actualizarServicio,
   eliminarServicio,
+  buscarServicios,
 };
