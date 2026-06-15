@@ -14,4 +14,5 @@ export const CATEGORIA_SERVICIO = [
   "estetica",
   "maquillaje",
   "pedicura",
+  "depilacion",
 ];

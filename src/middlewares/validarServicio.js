@@ -1,6 +1,7 @@
 // validarServicio.js
 import { body } from "express-validator";
 import resultadoValidacion from "./resultadoValidacion.js";
+import { CATEGORIA_SERVICIO } from "../constants/turno.constants.js";
 
 export const validarServicio = [
   body("nombre")
@@ -11,6 +12,12 @@ export const validarServicio = [
     .withMessage("El nombre debe tener entre 2 y 100 caracteres")
     .matches(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s\-]+$/)
     .withMessage("El nombre solo puede contener letras, números, espacios y guiones"),
+
+  body("categoria")
+    .notEmpty()
+    .withMessage("La categoría es obligatoria")
+    .isIn(CATEGORIA_SERVICIO)
+    .withMessage(`La categoría debe ser una de las siguientes: ${CATEGORIA_SERVICIO.join(", ")}`),
 
   body("precio")
     .notEmpty()
