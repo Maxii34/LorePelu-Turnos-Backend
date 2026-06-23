@@ -1,7 +1,16 @@
 import servicioService from "../services/servicioService.js";
 
+const procesarDuracion = (req) => {
+  if (req.body && req.body.duracion) {
+    const { horas = 0, minutos = 0 } = req.body.duracion;
+    req.body.duracionMin = horas * 60 + minutos;
+    delete req.body.duracion;
+  }
+};
+
 const crearServicio = async (req, res) => {
   try {
+    procesarDuracion(req);
     const servicioCreado = await servicioService.crearServicio(req.body);
     res.status(201).json({
       ok: true,
@@ -52,6 +61,7 @@ const obtenerServicios = async (req, res) => {
 
 const actualizarServicio = async (req, res) => {
   try {
+    procesarDuracion(req);
     const servicioActualizado = await servicioService.actualizarServicio(
       req.params.id,
       req.body,
