@@ -2,6 +2,7 @@ import { Router } from "express";
 import servicioController from "../controllers/servicioController.js";
 import { validarToken } from "../middlewares/validarToken.js";
 import { permitirRoles } from "../middlewares/validarRoles.js";
+import { validarServicio } from "../middlewares/validarServicio.js";
 
 const router = Router();
 
@@ -11,6 +12,7 @@ router
   .post(
     validarToken,
     permitirRoles(["administrador", "moderador"]),
+    validarServicio,
     servicioController.crearServicio,
   )
   .get(servicioController.obtenerServicios);

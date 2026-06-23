@@ -1,12 +1,8 @@
 import serviciosRepository from "../repositories/serviciosRepository.js";
 
 const crearServicio = async (servicioData) => {
-  const { nombre, precio } = servicioData;
-  if (!nombre && !precio) {
-    throw new Error("Faltan datos obligatorios");
-  }
-  const crearServicio = await serviciosRepository.crearServicio(servicioData);
-  return crearServicio;
+  const nuevoServicio = await serviciosRepository.crearServicio(servicioData); 
+  return nuevoServicio;
 };
 
 const obtenerServicio = async (id) => {
