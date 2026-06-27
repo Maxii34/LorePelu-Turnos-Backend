@@ -2,22 +2,12 @@ import turnosRepository from "../repositories/turnosRepository.js";
 import { ESTADOS_TURNO } from "../constants/turno.constants.js";
 
 const crearTurno = async (turnoData) => {
-  const { email, telefono } = turnoData;
-  if (!email || !telefono) {
+  const { nombreCliente, email, telefono } = turnoData;
+
+  if (!nombreCliente || !email || !telefono) {
     throw new Error("Faltan datos obligatorios");
   }
-  const turnoExistente = await turnosRepository.obtenerTurnoExistente(
-    email,
-    telefono,
-  );
-  if (turnoExistente) {
-    if (turnoExistente.email === email) {
-      throw new Error("Ya existe un turno con ese email");
-    }
-    if (turnoExistente.telefono === telefono) {
-      throw new Error("Ya existe un turno con ese teléfono");
-    }
-  }
+
   return await turnosRepository.crearTurno(turnoData);
 };
 
