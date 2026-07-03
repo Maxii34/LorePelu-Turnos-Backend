@@ -44,6 +44,15 @@ const actualizarEstado = async (id, estado) => {
   ).populate(populate);
 };
 
+const obtenerTurnosPorFecha = async (fecha) => {
+  return await Turno.find({ 
+    fecha: fecha,
+    estado: { $ne: "cancelado" }
+  })
+    .select("hora")
+    .sort({ hora: 1 });
+};
+
 const buscarTurnos = async (texto) => {
   return await Turno.find({
     $or: [
@@ -63,6 +72,7 @@ export default {
   obtenerTodoTurnos,
   obtenerTurnoExistente,
   obtenerTurnoPorId,
+  obtenerTurnosPorFecha,
   actualizarTurno,
   eliminarTurno,
   actualizarEstado,

@@ -12,6 +12,7 @@ const router = Router();
 //http://localhost:3000/api/turnos
 router.post("/", turnoValidacion, validarHorario, turnoController.crearTurno);
 router.get("/", turnoController.obtenerTurnos);
+router.get("/horarios-disponibles", turnoController.obtenerHorariosDisponibles);
 router.get("/buscar", turnoController.buscarTurnos);
 
 router

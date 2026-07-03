@@ -109,6 +109,32 @@ const buscarTurnos = async (req, res) => {
   }
 };
 
+const obtenerHorariosDisponibles = async (req, res) => {
+  try {
+    const { fecha } = req.query;
+
+    if (!fecha) {
+      return res.status(400).json({
+        ok: false,
+        mensaje: "La fecha es requerida (formato: YYYY-MM-DD)",
+      });
+    }
+
+    const horarios = await turnoService.obtenerHorariosDisponibles(fecha);
+
+    res.status(200).json({
+      ok: true,
+      mensaje: "Horarios disponibles obtenidos",
+      data: horarios,
+    });
+  } catch (error) {
+    res.status(400).json({
+      ok: false,
+      mensaje: error.message,
+    });
+  }
+};
+
 export default {
   crearTurno,
   obtenerTurnos,
@@ -117,4 +143,5 @@ export default {
   eliminarTurno,
   actualizarEstado,
   buscarTurnos,
+  obtenerHorariosDisponibles,
 };

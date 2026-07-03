@@ -1,5 +1,6 @@
 import turnosRepository from "../repositories/turnosRepository.js";
 import { ESTADOS_TURNO } from "../constants/turno.constants.js";
+import { HORARIO_CONFIG, generarHorasDisponibles } from "../constants/horarios.constants.js";
 
 const crearTurno = async (turnoData) => {
   const { nombreCliente, email, telefono } = turnoData;
@@ -73,6 +74,42 @@ const buscarTurnos = async (texto) => {
   return await turnosRepository.buscarTurnos(texto);
 };
 
+const obtenerHorariosDisponibles = async (fecha) => {
+  if (!fecha) {
+    throw new Error("La fecha es requerida");
+  }
+
+  const fechaObj = new Date(fecha);
+  const hoy = new Date();
+  hoy.setHours(0, 0, 0, 0);
+  fechaObj.setHours(0, 0, 0, 0);
+
+  if (fechaObj < hoy) {
+    throw new Error("No se puede consultar fechas pasadas");
+  }
+
+  const diaSemana = fechaObj.getDay();
+  if (!HORARIO_CONFIG.diasPermitidos.includes(diaSemana)) {
+    throw new Error("No hay turnos disponibles para este día");
+  }
+
+  if (HORARIO_CONFIG.fechasNoPermitidas.includes(fecha)) {
+    throw new Error("Esta fecha no está disponible");
+  }
+
+  const horasDisponibles = generarHorasDisponibles();
+  const turnosOcupados = await turnosRepository.obtenerTurnosPorFecha(fecha);
+  
+  const horasOcupadas = new Set(turnosOcupados.map(turno => turno.hora));
+  const horasLibres = horasDisponibles.filter(hora => !horasOcupadas.has(hora));
+
+  return {
+    fecha,
+    horasDisponibles: horasLibres,
+    totalDisponibles: horasLibres.length,
+  };
+};
+
 export default {
   crearTurno,
   obtenerTurnos,
@@ -83,4 +120,5 @@ export default {
   eliminarTurno,
   actualizarEstado,
   buscarTurnos,
+  obtenerHorariosDisponibles,
 };
