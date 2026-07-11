@@ -1,12 +1,8 @@
 import serviciosRepository from "../repositories/serviciosRepository.js";
 
 const crearServicio = async (servicioData) => {
-  const { nombre, precio } = servicioData;
-  if (!nombre && !precio) {
-    throw new Error("Faltan datos obligatorios");
-  }
-  const crearServicio = await serviciosRepository.crearServicio(servicioData);
-  return crearServicio;
+  const nuevoServicio = await serviciosRepository.crearServicio(servicioData); 
+  return nuevoServicio;
 };
 
 const obtenerServicio = async (id) => {
@@ -29,10 +25,19 @@ const eliminarServicio = async (id) => {
   return await serviciosRepository.eliminarServico(id);
 };
 
+const buscarServicios = async (texto) => {
+  if (!texto?.trim()) {
+    return await servicioRepository.obtenerServicios();
+  }
+
+  return await servicioRepository.buscarServicios(texto);
+};
+
 export default {
   crearServicio,
   obtenerServicio,
   obtenerServicios,
   actualizarServicio,
   eliminarServicio,
+  buscarServicios,
 };

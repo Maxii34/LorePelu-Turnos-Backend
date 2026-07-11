@@ -78,10 +78,60 @@ const actualizarEstado = async (req, res) => {
     res.status(200).json({
       ok: true,
       mensaje: "Estado actualizado",
-      turno: turnoActualizado,
+      turno:{
+        _id: turnoActualizado._id,
+        nombreCliente: turnoActualizado.nombreCliente,
+        estado: turnoActualizado.estado,
+        servicio: turnoActualizado.servicio.nombre,
+      },
     });
   } catch (error) {
     res.status(400).json({ ok: false, mensaje: error.message });
+  }
+};
+
+const buscarTurnos = async (req, res) => {
+  try {
+    const { q } = req.query;
+
+    const turnos = await turnoService.buscarTurnos(q);
+
+    res.status(200).json({
+      ok: true,
+      mensaje: "Turnos encontrados",
+      turnos,
+    });
+  } catch (error) {
+    res.status(500).json({
+      ok: false,
+      mensaje: error.message,
+    });
+  }
+};
+
+const obtenerHorariosDisponibles = async (req, res) => {
+  try {
+    const { fecha } = req.query;
+
+    if (!fecha) {
+      return res.status(400).json({
+        ok: false,
+        mensaje: "La fecha es requerida (formato: YYYY-MM-DD)",
+      });
+    }
+
+    const horarios = await turnoService.obtenerHorariosDisponibles(fecha);
+
+    res.status(200).json({
+      ok: true,
+      mensaje: "Horarios disponibles obtenidos",
+      data: horarios,
+    });
+  } catch (error) {
+    res.status(400).json({
+      ok: false,
+      mensaje: error.message,
+    });
   }
 };
 
@@ -92,4 +142,6 @@ export default {
   actualizarTurno,
   eliminarTurno,
   actualizarEstado,
+  buscarTurnos,
+  obtenerHorariosDisponibles,
 };

@@ -26,11 +26,19 @@ const adminSchema = new mongoose.Schema(
       type: String,
       required: true,
       minlength: 8,
+      validate: {
+        validator: function (v) {
+          if (v.startsWith("$2b$") || v.startsWith("$2a$")) return true;
+          return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(v);
+        },
+        message:
+          "La contraseña debe tener al menos una mayúscula, una minúscula, un número y un carácter especial (@$!%*?&)",
+      },
     },
     rol: {
       type: String,
-      enum: ["administrador", "moderador"],
-      default: "administrador",
+      enum: ["usuario", "administrador", "moderador"],
+      default: "usuario",
     },
   },
   { timestamps: true }

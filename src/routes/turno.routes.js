@@ -1,18 +1,25 @@
 import { Router } from "express";
 import turnoController from "../controllers/turnoController.js";
+import { validarToken } from "../middlewares/validarToken.js";
+import { turnoValidacion } from "../middlewares/turnoValidacion.js";
+import validacionID from "../middlewares/validacionID.js";
+import { permitirRoles } from "../middlewares/validarRoles.js";
+import { validarHorario } from "../middlewares/ValidarHorarios.js";
 
 const router = Router();
 
 // Rutas para Turnos
 //http://localhost:3000/api/turnos
-router.post("/", turnoController.crearTurno);
+router.post("/", turnoValidacion, validarHorario, turnoController.crearTurno);
 router.get("/", turnoController.obtenerTurnos);
+router.get("/horarios-disponibles", turnoController.obtenerHorariosDisponibles);
+router.get("/buscar", turnoController.buscarTurnos);
 
 router
   .route("/:id")
-  .get(turnoController.obtenerTurnoPorId)
-  .put(turnoController.actualizarTurno)
-  .delete(turnoController.eliminarTurno)
-  .patch(turnoController.actualizarEstado);
+  .get(validarToken, validacionID, turnoController.obtenerTurnoPorId)
+  .put(validarToken, validacionID, turnoValidacion, validarHorario , turnoController.actualizarTurno)
+  .delete(validarToken, validacionID, permitirRoles(['administrador', 'moderador']), turnoController.eliminarTurno)
+  .patch(validarToken, validacionID, permitirRoles(['administrador', 'moderador']), turnoController.actualizarEstado);
 
 export default router;
