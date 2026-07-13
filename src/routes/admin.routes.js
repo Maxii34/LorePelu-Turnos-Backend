@@ -11,6 +11,9 @@ const router = Router();
 router.post("/registro", validarAdmin, adminController.registrar);
 router.post("/login", validarLogin, adminController.login);
 router.post("/logout", adminController.logout);
+router.get("/me", validarToken, adminController.obtenerPerfil);
+router.put("/me", validarToken, adminController.actualizarPerfil);
+router.delete("/me", validarToken, adminController.eliminarPerfil);
 
 // Rutas protegidas
 router.route("/").get(validarToken, adminController.obtenerTodos);
