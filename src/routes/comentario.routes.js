@@ -8,12 +8,12 @@ const router = Router();
 
 router
   .route("/")
-  .post(validarToken ,validacionComentario ,comentarioController.crearComentario)
-  .get(validarToken, comentarioController.obtenerComentarios);
+  .post(validarToken, validacionComentario, comentarioController.crearComentario)
+  .get(comentarioController.obtenerComentarios);
 router
   .route("/:id")
-  .get(validarToken ,comentarioController.obtenerComentario)
-  .put(validarToken ,validacionComentario, comentarioController.actualizarComentario)
-  .patch(validarToken ,comentarioController.desactivarComentario);
+  .get(validarToken, comentarioController.obtenerComentario)
+  .put(validarToken, validacionComentario, comentarioController.actualizarComentario)
+  .patch(validarToken, comentarioController.desactivarComentario);
 
 export default router;

@@ -72,6 +72,33 @@ const obtenerPorId = async (req, res) => {
   }
 };
 
+const obtenerPerfil = async (req, res) => {
+  try {
+    const admin = await adminService.obtenerPorId(req.usuario);
+    res.status(200).json({ ok: true, mensaje: "Perfil obtenido exitosamente", admin });
+  } catch (error) {
+    res.status(404).json({ ok: false, mensaje: error.message });
+  }
+};
+
+const actualizarPerfil = async (req, res) => {
+  try {
+    const admin = await adminService.actualizar(req.usuario, req.body);
+    res.status(200).json({ ok: true, mensaje: "Perfil actualizado exitosamente", admin });
+  } catch (error) {
+    res.status(400).json({ ok: false, mensaje: error.message });
+  }
+};
+
+const eliminarPerfil = async (req, res) => {
+  try {
+    await adminService.eliminar(req.usuario);
+    res.status(200).json({ ok: true, mensaje: "Cuenta eliminada correctamente" });
+  } catch (error) {
+    res.status(400).json({ ok: false, mensaje: error.message });
+  }
+};
+
 const actualizar = async (req, res) => {
   try {
     const admin = await adminService.actualizar(req.params.id, req.body);
@@ -103,7 +130,10 @@ export default {
   login,
   obtenerTodos,
   obtenerPorId,
+  obtenerPerfil,
+  actualizarPerfil,
   actualizar,
   eliminar,
+  eliminarPerfil,
   logout,
 };
