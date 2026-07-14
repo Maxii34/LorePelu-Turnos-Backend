@@ -21,7 +21,7 @@ export default class Server {
   middlewares() {
     this.app.use(
       cors({
-        origin: "https://turnospelu.netlify.app/", 
+        origin: ["http://localhost:5173", "https://turnospelu.netlify.app"],
         credentials: true,
       }),
     );
