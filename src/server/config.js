@@ -10,21 +10,30 @@ import cookieParser from "cookie-parser";
 
 dotenv.config();
 
+const allowedOrigins = "http://localhost:5173";
+
 export default class Server {
   constructor() {
     this.app = express();
-    this.port = process.env.PORT || 3001;
+    this.port = process.env.PORT || 3000;
     this.middlewares();
     this.routes();
   }
-
+ 
   middlewares() {
     this.app.use(
       cors({
-        origin: ["http://localhost:5173", "https://turnospelu.netlify.app"],
+        origin(origin, callback) {
+          if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+          } else {
+            callback(new Error("Origen no permitido"));
+          }
+        },
         credentials: true,
       }),
     );
+
     this.app.use(express.json());
     this.app.use(cookieParser());
     this.app.use(morgan("dev"));
