@@ -2,4 +2,8 @@ import Server from "./src/server/config.js";
 
 const server = new Server();
 
-server.listen();
+if (process.env.NODE_ENV !== "production") {
+  server.listen();
+}
+
+export default server.app;
