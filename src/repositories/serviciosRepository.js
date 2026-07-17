@@ -1,26 +1,25 @@
-import { populate } from "dotenv";
-import servicio from "../model/serviciosModelo.js";
+import Servicio from "../model/serviciosModelo.js";
 
 const crearServicio = async (servicioData) => {
-  return await servicio.create(servicioData);
+  return await Servicio.create(servicioData);
 };
 
 const obtenerServicio = async (id) => {
-  return await servicio.findById(id);
+  return await Servicio.findById(id);
 };
 
 const obtenerServicios = async () => {
-  return await servicio.find();
+  return await Servicio.find();
 };
 
 const actualizarServicio = async (id, servicioData) => {
-  return await servicio.findByIdAndUpdate(id, servicioData, {
+  return await Servicio.findByIdAndUpdate(id, servicioData, {
     returnDocument: "after",
   });
 };
 
 const eliminarServico = async (id) => {
-  return await servicio.findByIdAndDelete(id);
+  return await Servicio.findByIdAndDelete(id);
 };
 
 const buscarServicios = async (texto) => {
