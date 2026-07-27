@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { validarToken } from "../middlewares/validarToken.js";
+import { validarToken } from "../middlewares/validartoken.js";
 import adminController from "../controllers/adminController.js";
 import { permitirRoles } from "../middlewares/validarRoles.js";
 import { validarAdmin, validarLogin } from "../middlewares/validarAdmin.js";

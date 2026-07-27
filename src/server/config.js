@@ -10,7 +10,10 @@ import cookieParser from "cookie-parser";
 dotenv.config();
 await import("./dbConfig.js");
 
-const allowedOrigins = "https://sistematurnospl.netlify.app/";
+const allowedOrigins = [
+  process.env.FRONTEND_URL,
+  "http://localhost:5173",
+];
 
 export default class Server {
   constructor() {

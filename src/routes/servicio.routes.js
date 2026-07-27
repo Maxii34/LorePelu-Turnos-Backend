@@ -1,6 +1,6 @@
 import { Router } from "express";
 import servicioController from "../controllers/servicioController.js";
-import { validarToken } from "../middlewares/validarToken.js";
+import { validarToken } from "../middlewares/validartoken.js";
 import { permitirRoles } from "../middlewares/validarRoles.js";
 import { validarServicio } from "../middlewares/validarServicio.js";
 

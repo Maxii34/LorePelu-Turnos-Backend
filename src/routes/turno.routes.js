@@ -1,6 +1,6 @@
 import { Router } from "express";
 import turnoController from "../controllers/turnoController.js";
-import { validarToken } from "../middlewares/validarToken.js";
+import { validarToken } from "../middlewares/validartoken.js";
 import { turnoValidacion } from "../middlewares/turnoValidacion.js";
 import validacionID from "../middlewares/validacionID.js";
 import { permitirRoles } from "../middlewares/validarRoles.js";

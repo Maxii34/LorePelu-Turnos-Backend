@@ -27,10 +27,10 @@ const eliminarServicio = async (id) => {
 
 const buscarServicios = async (texto) => {
   if (!texto?.trim()) {
-    return await servicioRepository.obtenerServicios();
+    return await serviciosRepository.obtenerServicios();
   }
 
-  return await servicioRepository.buscarServicios(texto);
+  return await serviciosRepository.buscarServicios(texto);
 };
 
 export default {
