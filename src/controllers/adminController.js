@@ -15,9 +15,9 @@ const login = async (req, res) => {
 
     res.cookie("token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
-      maxAge: 60 * 60 * 1000, // 1 hora
+      secure: true, // obligatorio en HTTPS (Vercel siempre es https)
+      sameSite: "none", // necesario para que viaje cross-site
+      maxAge: 60 * 60 * 1000,
     });
 
     res.status(200).json({
@@ -34,7 +34,11 @@ const login = async (req, res) => {
 };
 
 const logout = (req, res) => {
-  res.clearCookie("token");
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
+  });
 
   res.status(200).json({
     ok: true,
@@ -45,13 +49,11 @@ const logout = (req, res) => {
 const obtenerTodos = async (req, res) => {
   try {
     const admins = await adminService.obtenerTodos();
-    res
-      .status(200)
-      .json({
-        ok: true,
-        mensaje: "Administradores obtenidos exitosamente",
-        admins,
-      });
+    res.status(200).json({
+      ok: true,
+      mensaje: "Administradores obtenidos exitosamente",
+      admins,
+    });
   } catch (error) {
     res.status(500).json({ ok: false, mensaje: error.message });
   }
@@ -60,13 +62,11 @@ const obtenerTodos = async (req, res) => {
 const obtenerPorId = async (req, res) => {
   try {
     const admin = await adminService.obtenerPorId(req.params.id);
-    res
-      .status(200)
-      .json({
-        ok: true,
-        mensaje: "Administrador obtenido exitosamente",
-        admin,
-      });
+    res.status(200).json({
+      ok: true,
+      mensaje: "Administrador obtenido exitosamente",
+      admin,
+    });
   } catch (error) {
     res.status(404).json({ ok: false, mensaje: error.message });
   }
@@ -75,7 +75,9 @@ const obtenerPorId = async (req, res) => {
 const obtenerPerfil = async (req, res) => {
   try {
     const admin = await adminService.obtenerPorId(req.usuario);
-    res.status(200).json({ ok: true, mensaje: "Perfil obtenido exitosamente", admin });
+    res
+      .status(200)
+      .json({ ok: true, mensaje: "Perfil obtenido exitosamente", admin });
   } catch (error) {
     res.status(404).json({ ok: false, mensaje: error.message });
   }
@@ -84,7 +86,9 @@ const obtenerPerfil = async (req, res) => {
 const actualizarPerfil = async (req, res) => {
   try {
     const admin = await adminService.actualizar(req.usuario, req.body);
-    res.status(200).json({ ok: true, mensaje: "Perfil actualizado exitosamente", admin });
+    res
+      .status(200)
+      .json({ ok: true, mensaje: "Perfil actualizado exitosamente", admin });
   } catch (error) {
     res.status(400).json({ ok: false, mensaje: error.message });
   }
@@ -93,7 +97,9 @@ const actualizarPerfil = async (req, res) => {
 const eliminarPerfil = async (req, res) => {
   try {
     await adminService.eliminar(req.usuario);
-    res.status(200).json({ ok: true, mensaje: "Cuenta eliminada correctamente" });
+    res
+      .status(200)
+      .json({ ok: true, mensaje: "Cuenta eliminada correctamente" });
   } catch (error) {
     res.status(400).json({ ok: false, mensaje: error.message });
   }
@@ -102,13 +108,11 @@ const eliminarPerfil = async (req, res) => {
 const actualizar = async (req, res) => {
   try {
     const admin = await adminService.actualizar(req.params.id, req.body);
-    res
-      .status(200)
-      .json({
-        ok: true,
-        mensaje: "Administrador actualizado exitosamente",
-        admin,
-      });
+    res.status(200).json({
+      ok: true,
+      mensaje: "Administrador actualizado exitosamente",
+      admin,
+    });
   } catch (error) {
     res.status(400).json({ ok: false, mensaje: error.message });
   }
