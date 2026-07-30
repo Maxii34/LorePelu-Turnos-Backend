@@ -1,4 +1,5 @@
 import servicioService from "../services/servicioService.js";
+import subirImagenCloudinary from "../helpers/cloudinaryUploader.js";
 
 const procesarDuracion = (req) => {
   if (req.body && req.body.duracion) {
@@ -11,7 +12,18 @@ const procesarDuracion = (req) => {
 const crearServicio = async (req, res) => {
   try {
     procesarDuracion(req);
+
+    if (req.file) {
+      const resultado = await subirImagenCloudinary(req.file.buffer);
+
+      req.body.imagen = {
+        url: resultado.secure_url,
+        public_id: resultado.public_id,
+      };
+    }
+
     const servicioCreado = await servicioService.crearServicio(req.body);
+
     res.status(201).json({
       ok: true,
       mensaje: "Servicio creado correctamente",

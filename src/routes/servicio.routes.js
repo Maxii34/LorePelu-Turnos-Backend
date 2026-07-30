@@ -3,6 +3,8 @@ import servicioController from "../controllers/servicioController.js";
 import { validarToken } from "../middlewares/validartoken.js";
 import { permitirRoles } from "../middlewares/validarRoles.js";
 import { validarServicio } from "../middlewares/validarServicio.js";
+import errorMulter from "../middlewares/errorMulter.js";
+import upload from "../helpers/upload.js";
 
 const router = Router();
 
@@ -12,6 +14,8 @@ router
   .post(
     validarToken,
     permitirRoles(["administrador", "moderador"]),
+    upload.single("imagen"),
+    errorMulter,
     validarServicio,
     servicioController.crearServicio,
   )
