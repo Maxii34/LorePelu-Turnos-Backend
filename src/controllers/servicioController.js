@@ -1,5 +1,6 @@
 import servicioService from "../services/servicioService.js";
 import subirImagenCloudinary from "../helpers/cloudinaryUploader.js";
+import cloudinary from "../helpers/cloudinary.js";
 
 const procesarDuracion = (req) => {
   if (req.body && req.body.duracion) {
@@ -10,15 +11,16 @@ const procesarDuracion = (req) => {
 };
 
 const crearServicio = async (req, res) => {
+  let imagenSubida = null;
+
   try {
     procesarDuracion(req);
 
     if (req.file) {
-      const resultado = await subirImagenCloudinary(req.file.buffer);
-
+      imagenSubida = await subirImagenCloudinary(req.file.buffer);
       req.body.imagen = {
-        url: resultado.secure_url,
-        public_id: resultado.public_id,
+        url: imagenSubida.secure_url,
+        public_id: imagenSubida.public_id,
       };
     }
 
@@ -30,6 +32,12 @@ const crearServicio = async (req, res) => {
       servicio: servicioCreado,
     });
   } catch (error) {
+    // Si la imagen se subió pero el servicio no se pudo crear (ej: falla de validación),
+    // borramos la imagen para no dejar basura en Cloudinary
+    if (imagenSubida?.public_id) {
+      await cloudinary.uploader.destroy(imagenSubida.public_id).catch(() => {});
+    }
+
     res.status(500).json({
       ok: false,
       mensaje: error.message,
@@ -72,18 +80,46 @@ const obtenerServicios = async (req, res) => {
 };
 
 const actualizarServicio = async (req, res) => {
+  let imagenSubida = null;
+
   try {
     procesarDuracion(req);
+
+    if (req.file) {
+      // Traemos el servicio actual para saber si tiene imagen vieja que borrar
+      const servicioActual = await servicioService.obtenerServicio(
+        req.params.id,
+      );
+      const publicIdAnterior = servicioActual?.imagen?.public_id;
+
+      imagenSubida = await subirImagenCloudinary(req.file.buffer);
+      req.body.imagen = {
+        url: imagenSubida.secure_url,
+        public_id: imagenSubida.public_id,
+      };
+
+      // Borramos la imagen anterior recién después de subir la nueva con éxito
+      if (publicIdAnterior) {
+        await cloudinary.uploader.destroy(publicIdAnterior).catch(() => {});
+      }
+    }
+
     const servicioActualizado = await servicioService.actualizarServicio(
       req.params.id,
       req.body,
     );
+
     res.status(200).json({
       ok: true,
       mensaje: "Servicio Actualizado",
       servicio: servicioActualizado,
     });
   } catch (error) {
+    // Si subimos imagen nueva pero la actualización del servicio falló, la borramos
+    if (imagenSubida?.public_id) {
+      await cloudinary.uploader.destroy(imagenSubida.public_id).catch(() => {});
+    }
+
     res.status(500).json({
       ok: false,
       mensaje: error.message,
@@ -93,7 +129,16 @@ const actualizarServicio = async (req, res) => {
 
 const eliminarServicio = async (req, res) => {
   try {
-    const servicioEliminado = await servicioService.eliminarServicio(req.params.id);
+    const servicioEliminado = await servicioService.eliminarServicio(
+      req.params.id,
+    );
+
+    if (servicioEliminado?.imagen?.public_id) {
+      await cloudinary.uploader
+        .destroy(servicioEliminado.imagen.public_id)
+        .catch(() => {});
+    }
+
     res.status(200).json({
       ok: true,
       mensaje: "Servicio Eliminado",

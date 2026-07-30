@@ -4,6 +4,7 @@ import { validarToken } from "../middlewares/validartoken.js";
 import { permitirRoles } from "../middlewares/validarRoles.js";
 import { validarServicio } from "../middlewares/validarServicio.js";
 import errorMulter from "../middlewares/errorMulter.js";
+import { parsearDuracion } from "../middlewares/parsearDuracion.js";
 import upload from "../helpers/upload.js";
 
 const router = Router();
@@ -12,10 +13,11 @@ const router = Router();
 router
   .route("/")
   .post(
-    validarToken,
-    permitirRoles(["administrador", "moderador"]),
+    //validarToken,
+    //permitirRoles(["administrador", "moderador"]),
     upload.single("imagen"),
     errorMulter,
+    parsearDuracion,
     validarServicio,
     servicioController.crearServicio,
   )
@@ -34,6 +36,8 @@ router
   .put(
     validarToken,
     permitirRoles(["administrador", "moderador"]),
+    upload.single("imagen"),
+    parsearDuracion,
     servicioController.actualizarServicio,
   )
   .delete(
