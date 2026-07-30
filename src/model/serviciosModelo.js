@@ -16,6 +16,11 @@ const servicioSchema = new mongoose.Schema(
       trim: true,
       enum: CATEGORIA_SERVICIO,
     },
+    imagen: {
+      type: String,
+      trim: true,
+      default: "",
+    },
     precio: {
       type: Number,
       required: true,
