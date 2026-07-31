@@ -40,6 +40,18 @@ const adminSchema = new mongoose.Schema(
       enum: ["usuario", "administrador", "moderador"],
       default: "usuario",
     },
+    fotoPerfil: {
+      url: {
+        type: String,
+        trim: true,
+        default: "",
+      },
+      public_id: {
+        type: String,
+        trim: true,
+        default: "",
+      },
+    },
   },
   { timestamps: true }
 );

@@ -13,8 +13,8 @@ const router = Router();
 router
   .route("/")
   .post(
-    //validarToken,
-    //permitirRoles(["administrador", "moderador"]),
+    validarToken,
+    permitirRoles(["administrador", "moderador"]),
     upload.single("imagen"),
     errorMulter,
     parsearDuracion,
