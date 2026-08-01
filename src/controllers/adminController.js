@@ -24,6 +24,7 @@ const login = async (req, res) => {
 
     res.status(200).json({
       ok: true,
+      token,
       mensaje: "Sesión iniciada exitosamente",
       admin,
     });
@@ -151,10 +152,10 @@ const actualizar = async (req, res) => {
 
 const eliminar = async (req, res) => {
   try {
-    await adminService.eliminar(req.params.id);
+    const eliminarUsuario = await adminService.eliminar(req.params.id);
     res
       .status(200)
-      .json({ ok: true, mensaje: "Administrador eliminado exitosamente" });
+      .json({ ok: true, usuario: eliminarUsuario, mensaje: "Usuario eliminado exitosamente" });
   } catch (error) {
     res.status(404).json({ ok: false, mensaje: error.message });
   }

@@ -18,6 +18,7 @@ router.post(
 router.post("/login", validarLogin, adminController.login);
 router.post("/logout", adminController.logout);
 router.get("/me", validarToken, adminController.obtenerPerfil);
+// Actualizar perfil e imagen
 router.put(
   "/me",
   validarToken,
