@@ -26,7 +26,7 @@ router.put(
   errorMulter,
   adminController.actualizarPerfil,
 );
-router.delete("/me", validarToken, adminController.eliminarPerfil);
+router.delete("/me", validarToken, permitirRoles(["administrador", "usuario"]), adminController.eliminarPerfil);
 
 // Rutas protegidas
 router.route("/").get(validarToken, adminController.obtenerTodos);
@@ -48,7 +48,7 @@ router
   .delete(
     validarToken,
     validacionID,
-    permitirRoles(["administrador"]),
+    permitirRoles(["administrador", "usuario"]),
     adminController.eliminar,
   );
 
