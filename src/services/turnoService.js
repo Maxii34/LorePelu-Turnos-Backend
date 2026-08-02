@@ -5,7 +5,7 @@ import { HORARIO_CONFIG, generarHorasDisponibles } from "../constants/horarios.c
 const crearTurno = async (turnoData) => {
   const { nombreCliente, email, telefono } = turnoData;
 
-  if (!nombreCliente || !email || !telefono) {
+  if (!nombreCliente || !telefono) {
     throw new Error("Faltan datos obligatorios");
   }
 
