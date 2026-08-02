@@ -1,4 +1,5 @@
 import Turno from "../model/turnosModelo.js";
+import { ESTADOS_TURNO_ACTIVOS } from "../constants/turno.constants.js";
 
 const populate = { path: "servicio", select: "nombre precio duracionMin" };
 
@@ -21,7 +22,12 @@ const obtenerTurnoPorId = async (id) => {
 };
 
 const obtenerTurnoExistente = async (email, telefono) => {
+  const hoy = new Date();
+  hoy.setHours(0, 0, 0, 0);
+
   return await Turno.findOne({
+    estado: { $in: ESTADOS_TURNO_ACTIVOS },
+    fecha: { $gte: hoy },
     $or: [{ email }, { telefono }],
   });
 };
@@ -45,9 +51,9 @@ const actualizarEstado = async (id, estado) => {
 };
 
 const obtenerTurnosPorFecha = async (fecha) => {
-  return await Turno.find({ 
+  return await Turno.find({
     fecha: fecha,
-    estado: { $ne: "cancelado" }
+    estado: { $in: ESTADOS_TURNO_ACTIVOS },
   })
     .select("hora")
     .sort({ hora: 1 });

@@ -19,7 +19,7 @@ router
   .route("/:id")
   .get(validarToken, validacionID, turnoController.obtenerTurnoPorId)
   .put(validarToken, validacionID, turnoValidacion, validarHorario , turnoController.actualizarTurno)
-  .delete(validarToken, validacionID, permitirRoles(['administrador', 'moderador']), turnoController.eliminarTurno)
-  .patch(validarToken, validacionID, permitirRoles(['administrador', 'moderador']), turnoController.actualizarEstado);
+  .delete(validarToken, validacionID, permitirRoles(['usuario','administrador', 'moderador']), turnoController.eliminarTurno)
+  .patch(validarToken, validacionID, permitirRoles(['usuario','administrador', 'moderador']), turnoController.actualizarEstado);
 
 export default router;

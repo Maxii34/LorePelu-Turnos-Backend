@@ -9,6 +9,11 @@ const crearTurno = async (turnoData) => {
     throw new Error("Faltan datos obligatorios");
   }
 
+  const turnoExistente = await turnosRepository.obtenerTurnoExistente(email, telefono);
+  if (turnoExistente) {
+    throw new Error("Ya existe un turno con ese email o teléfono");
+  }
+
   return await turnosRepository.crearTurno(turnoData);
 };
 
