@@ -11,13 +11,22 @@ export const validarServicio = [
     .isLength({ min: 2, max: 100 })
     .withMessage("El nombre debe tener entre 2 y 100 caracteres")
     .matches(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s\-]+$/)
-    .withMessage("El nombre solo puede contener letras, números, espacios y guiones"),
+    .withMessage(
+      "El nombre solo puede contener letras, números, espacios y guiones",
+    ),
 
   body("categoria")
     .notEmpty()
     .withMessage("La categoría es obligatoria")
     .isIn(CATEGORIA_SERVICIO)
-    .withMessage(`La categoría debe ser una de las siguientes: ${CATEGORIA_SERVICIO.join(", ")}`),
+    .withMessage(
+      `La categoría debe ser una de las siguientes: ${CATEGORIA_SERVICIO.join(", ")}`,
+    ),
+
+  body("imagen")
+    .optional()
+    .isURL()
+    .withMessage("La URL de la imagen no es válida"),
 
   body("precio")
     .notEmpty()
@@ -26,8 +35,10 @@ export const validarServicio = [
     .withMessage("El precio debe ser un número positivo y menor a 999.999"),
 
   body("duracion")
-    .notEmpty().withMessage("La duración es obligatoria")
-    .isObject().withMessage("La duración debe ser un objeto con horas y minutos."),
+    .notEmpty()
+    .withMessage("La duración es obligatoria")
+    .isObject()
+    .withMessage("La duración debe ser un objeto con horas y minutos."),
 
   body("duracion.horas")
     .optional({ checkFalsy: true })
@@ -46,7 +57,9 @@ export const validarServicio = [
       throw new Error("La duración total debe ser de al menos 1 minuto.");
     }
     if (totalMinutos > 480) {
-      throw new Error("La duración total no puede exceder las 8 horas (480 minutos).");
+      throw new Error(
+        "La duración total no puede exceder las 8 horas (480 minutos).",
+      );
     }
     return true;
   }),

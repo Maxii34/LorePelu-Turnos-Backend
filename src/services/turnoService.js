@@ -5,8 +5,13 @@ import { HORARIO_CONFIG, generarHorasDisponibles } from "../constants/horarios.c
 const crearTurno = async (turnoData) => {
   const { nombreCliente, email, telefono } = turnoData;
 
-  if (!nombreCliente || !email || !telefono) {
+  if (!nombreCliente || !telefono) {
     throw new Error("Faltan datos obligatorios");
+  }
+
+  const turnoExistente = await turnosRepository.obtenerTurnoExistente(email, telefono);
+  if (turnoExistente) {
+    throw new Error("Ya existe un turno con ese email o teléfono");
   }
 
   return await turnosRepository.crearTurno(turnoData);

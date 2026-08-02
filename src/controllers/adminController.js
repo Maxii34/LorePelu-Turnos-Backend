@@ -1,4 +1,6 @@
 import adminService from "../services/adminService.js";
+import subirImagenCloudinary from "../helpers/cloudinaryUploader.js";
+import cloudinary from "../helpers/cloudinary.js";
 
 const registrar = async (req, res) => {
   try {
@@ -22,6 +24,7 @@ const login = async (req, res) => {
 
     res.status(200).json({
       ok: true,
+      token,
       mensaje: "Sesión iniciada exitosamente",
       admin,
     });
@@ -84,19 +87,48 @@ const obtenerPerfil = async (req, res) => {
 };
 
 const actualizarPerfil = async (req, res) => {
+  let imagenSubida = null;
+
   try {
+    if (req.file) {
+      const adminActual = await adminService.obtenerPorId(req.usuario);
+      const publicIdAnterior = adminActual?.fotoPerfil?.public_id;
+
+      imagenSubida = await subirImagenCloudinary(req.file.buffer);
+      req.body.fotoPerfil = {
+        url: imagenSubida.secure_url,
+        public_id: imagenSubida.public_id,
+      };
+
+      if (publicIdAnterior) {
+        await cloudinary.uploader.destroy(publicIdAnterior).catch(() => {});
+      }
+    }
+
     const admin = await adminService.actualizar(req.usuario, req.body);
     res
       .status(200)
       .json({ ok: true, mensaje: "Perfil actualizado exitosamente", admin });
   } catch (error) {
+    if (imagenSubida?.public_id) {
+      await cloudinary.uploader.destroy(imagenSubida.public_id).catch(() => {});
+    }
     res.status(400).json({ ok: false, mensaje: error.message });
   }
 };
 
 const eliminarPerfil = async (req, res) => {
   try {
+    const adminActual = await adminService.obtenerPorId(req.usuario);
+
     await adminService.eliminar(req.usuario);
+
+    if (adminActual?.fotoPerfil?.public_id) {
+      await cloudinary.uploader
+        .destroy(adminActual.fotoPerfil.public_id)
+        .catch(() => {});
+    }
+
     res
       .status(200)
       .json({ ok: true, mensaje: "Cuenta eliminada correctamente" });
@@ -120,10 +152,10 @@ const actualizar = async (req, res) => {
 
 const eliminar = async (req, res) => {
   try {
-    await adminService.eliminar(req.params.id);
+    const eliminarUsuario = await adminService.eliminar(req.params.id);
     res
       .status(200)
-      .json({ ok: true, mensaje: "Administrador eliminado exitosamente" });
+      .json({ ok: true, usuario: eliminarUsuario, mensaje: "Usuario eliminado exitosamente" });
   } catch (error) {
     res.status(404).json({ ok: false, mensaje: error.message });
   }

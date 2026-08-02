@@ -1,4 +1,5 @@
 import Turno from "../model/turnosModelo.js";
+import { ESTADOS_TURNO_ACTIVOS } from "../constants/turno.constants.js";
 
 const populate = { path: "servicio", select: "nombre precio duracionMin" };
 
@@ -21,9 +22,35 @@ const obtenerTurnoPorId = async (id) => {
 };
 
 const obtenerTurnoExistente = async (email, telefono) => {
-  return await Turno.findOne({
-    $or: [{ email }, { telefono }],
-  });
+  const hoy = new Date();
+  hoy.setHours(0, 0, 0, 0);
+
+  const filtros = [
+    { estado: { $in: ESTADOS_TURNO_ACTIVOS } },
+    { fecha: { $gte: hoy } },
+  ];
+
+  const condiciones = [];
+
+  if (typeof email === "string" && email.trim()) {
+    condiciones.push({ email: email.trim().toLowerCase() });
+  }
+
+  if (typeof telefono === "string" && telefono.trim()) {
+    condiciones.push({ telefono: telefono.trim() });
+  }
+
+  if (condiciones.length === 0) {
+    return null;
+  }
+
+  if (condiciones.length === 1) {
+    filtros.push(condiciones[0]);
+  } else {
+    filtros.push({ $or: condiciones });
+  }
+
+  return await Turno.findOne(Object.assign({}, ...filtros));
 };
 
 const actualizarTurno = async (id, turnoData) => {
@@ -45,9 +72,9 @@ const actualizarEstado = async (id, estado) => {
 };
 
 const obtenerTurnosPorFecha = async (fecha) => {
-  return await Turno.find({ 
+  return await Turno.find({
     fecha: fecha,
-    estado: { $ne: "cancelado" }
+    estado: { $in: ESTADOS_TURNO_ACTIVOS },
   })
     .select("hora")
     .sort({ hora: 1 });

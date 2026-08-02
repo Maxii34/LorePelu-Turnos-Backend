@@ -5,7 +5,12 @@ export const ESTADOS_TURNO = [
   "completado",
 ];
 
+export const ESTADOS_TURNO_ACTIVOS = ["pendiente", "confirmado"];
+
 export const ESTADO_DEFAULT = "pendiente";
+
+export const esEstadoTurnoActivo = (estado) =>
+  ESTADOS_TURNO_ACTIVOS.includes(estado);
 
 export const CATEGORIA_SERVICIO = [
   "cortes",
